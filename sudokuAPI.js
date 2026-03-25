@@ -121,8 +121,9 @@ function swapColInBlock(blocks) {
 
     blocks.forEach(block => {
         for (let i = 0; i < 3; i++) {
-            let IDc1 = i * 3 + c1;
-            let IDc2 = i * 3 + c2;
+
+            let IDc1 = c1 + i * 3;
+            let IDc2 = c2 + i * 3;
 
             [block[IDc1], block[IDc2]] = [block[IDc2], block[IDc1]];
         }
@@ -141,28 +142,25 @@ function shuffleNumbers() {
     [b1, b2, b3, b4, b5, b6, b7, b8, b9].forEach(replace);
 }
 
-function mixFIeld() {
+
+function mixField() {
     swapHLines();
     swapVLines();
-
+ 
     swapRowsInBlock([b1, b2, b3]);
     swapRowsInBlock([b4, b5, b6]);
     swapRowsInBlock([b7, b8, b9]);
-
+ 
     swapColInBlock([b1, b4, b7]);
     swapColInBlock([b2, b5, b8]);
     swapColInBlock([b3, b6, b9]);
-
+ 
     shuffleNumbers();
 }
-
-mixFIeld()
-
-let Sudoku = [
-    [b1],[b2],[b3],[b4],[b5],[b6],[b7],[b8],[b9]
+ 
+mixField(); 
+const sudoku = [
+    b1,b2,b3,b4,b5,b6,b7,b8,b9
 ]
 
-console.log(Sudoku)
-
-
-
+console.log(sudoku)
