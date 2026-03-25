@@ -8,10 +8,35 @@ app.use(cors());
 
 
 
-app.get("/SudokuAPI", (req, res) =>{
+
+app.get("/SudokuAPI/easy", (req, res) => {
     reset();
     mixField();
-    const sudoku = [b1,b2,b3,b4,b5,b6,b7,b8,b9]
+    removeCells(10)
+    const sudoku = [b1, b2, b3, b4, b5, b6, b7, b8, b9]
+    res.json(sudoku)
+})
+
+app.get("/SudokuAPI/medium", (req, res) => {
+    reset();
+    mixField();
+    removeCells(20)
+    const sudoku = [b1, b2, b3, b4, b5, b6, b7, b8, b9]
+    res.json(sudoku)
+})
+app.get("/SudokuAPI/hard", (req, res) => {
+    reset();
+    mixField();
+    removeCells(30)
+    const sudoku = [b1, b2, b3, b4, b5, b6, b7, b8, b9]
+    res.json(sudoku)
+})
+
+app.get("/SudokuAPI/impossible", (req, res) => {
+    reset();
+    mixField();
+    removeCells(50)
+    const sudoku = [b1, b2, b3, b4, b5, b6, b7, b8, b9]
     res.json(sudoku)
 })
 
@@ -138,19 +163,19 @@ function shuffleNumbers() {
 function mixField() {
     swapHLines();
     swapVLines();
- 
+
     swapRowsInBlock([b1, b2, b3]);
     swapRowsInBlock([b4, b5, b6]);
     swapRowsInBlock([b7, b8, b9]);
- 
+
     swapColInBlock([b1, b4, b7]);
     swapColInBlock([b2, b5, b8]);
     swapColInBlock([b3, b6, b9]);
- 
+
     shuffleNumbers();
 }
 
-function reset(){
+function reset() {
     b1 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     b2 = [4, 5, 6, 7, 8, 9, 1, 2, 3];
     b3 = [7, 8, 9, 1, 2, 3, 4, 5, 6];
@@ -161,7 +186,25 @@ function reset(){
     b8 = [6, 7, 8, 9, 1, 2, 3, 4, 5];
     b9 = [9, 1, 2, 3, 4, 5, 6, 7, 8];
 }
- 
+
+function removeCells(count) {
+    const positions = [];
+
+
+    for (let b = 0; b < 9; b++)
+        for (let i = 0; i < 9; i++)
+            positions.push([b, i]);
+
+
+    positions.sort(() => Math.random() - 0.5);
+
+
+    const blocks = [b1, b2, b3, b4, b5, b6, b7, b8, b9];
+    for (let k = 0; k < count; k++) {
+        const [b, i] = positions[k];
+        blocks[b][i] = null;
+    }
+}
 
 
 

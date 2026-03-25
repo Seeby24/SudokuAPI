@@ -3,13 +3,14 @@ import "./field.css";
 
 export default function Field() {
     const [values, setValues] = useState(Array(81).fill(""));
+    const [given, setGiven] = useState(Array(81).fill(false));
 
     function clear() {
         setValues(Array(81).fill(""));
     }
-    async function generate(){
+    async function generate(dif){
             try {
-                const response = await fetch("http://localhost:6767/SudokuAPI", {
+                const response = await fetch("http://localhost:6767/SudokuAPI/"+dif, {
                     method: 'get',
                     headers: {
                         'Content-Type': 'application/json',
@@ -31,7 +32,8 @@ export default function Field() {
                     }
                 }
 
-                setValues(flat.map(String));
+                setValues(flat.map(v => (v === 0 || v === null) ? "" : String(v)));
+                setGiven(flat.map(v => v !== 0 && v !== null));
 
             } catch (error) {
                 console.error('Fehler beim Senden der Anfrage:', error);
@@ -55,7 +57,10 @@ export default function Field() {
     return (
         <>
             <button onClick={clear}>Reseten</button>
-            <button onClick={generate}>Sudokufeld generieren</button>
+            <button onClick={() =>generate("easy")}>Sudoku einfach</button>
+            <button onClick={() =>generate("medium")}>Sudoku mittel</button>
+            <button onClick={() =>generate("hard")}>Sudoku schwer</button>
+            <button onClick={() =>generate("impossible")}>Sudoku unmöglich</button>
 
             <div className="board">
                 {values.map((val, i) => (
@@ -66,6 +71,8 @@ export default function Field() {
                         inputMode="numeric"
                         value={val}
                         onChange={(e) => handleInput(e, i)}
+                        readOnly={given[i]}
+
                     />
                 ))}
             </div>
