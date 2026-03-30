@@ -6,12 +6,16 @@ const port = 6767;
 app.use(cors());
 
 
+let sol = []
 
-
+app.get("/SudokuAPI/solution", (req, res) => {
+    res.json(sol)
+})
 
 app.get("/SudokuAPI/easy", (req, res) => {
     reset();
     mixField();
+    sol = [b1, b2, b3, b4, b5, b6, b7, b8, b9].map(block => [...block]);
     removeCells(10)
     const sudoku = [b1, b2, b3, b4, b5, b6, b7, b8, b9]
     res.json(sudoku)
@@ -20,6 +24,7 @@ app.get("/SudokuAPI/easy", (req, res) => {
 app.get("/SudokuAPI/medium", (req, res) => {
     reset();
     mixField();
+    sol = [b1, b2, b3, b4, b5, b6, b7, b8, b9].map(block => [...block]);
     removeCells(20)
     const sudoku = [b1, b2, b3, b4, b5, b6, b7, b8, b9]
     res.json(sudoku)
@@ -27,6 +32,7 @@ app.get("/SudokuAPI/medium", (req, res) => {
 app.get("/SudokuAPI/hard", (req, res) => {
     reset();
     mixField();
+    sol = [b1, b2, b3, b4, b5, b6, b7, b8, b9].map(block => [...block]);
     removeCells(30)
     const sudoku = [b1, b2, b3, b4, b5, b6, b7, b8, b9]
     res.json(sudoku)
@@ -35,6 +41,7 @@ app.get("/SudokuAPI/hard", (req, res) => {
 app.get("/SudokuAPI/impossible", (req, res) => {
     reset();
     mixField();
+    sol = [b1, b2, b3, b4, b5, b6, b7, b8, b9].map(block => [...block]);
     removeCells(50)
     const sudoku = [b1, b2, b3, b4, b5, b6, b7, b8, b9]
     res.json(sudoku)
